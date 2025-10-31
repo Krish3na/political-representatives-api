@@ -51,8 +51,10 @@ Task-DE/
 │   ├── test_django_api.py  # Test script
 │   ├── requirements.txt    # Django dependencies
 │   └── Dockerfile
-├── docker-compose.yml      # Orchestrates all services
-├── init.sql                # Database schema
+├── docker-compose.yml          # Orchestrates all services
+├── environment-variables.txt   # Environment variables template
+├── shared/
+│   └── init.sql                # Database schema
 └── README.md
 ```
 
@@ -65,20 +67,9 @@ Task-DE/
 
 ### Environment Variables
 
-Create a `.env` file in the project root:
+Create `.env` file by copying `environment-variables.txt` and updating the API keys: `cp environment-variables.txt .env`
 
-```
-WEATHER_API_KEY=your_openweathermap_api_key
-POSTGRES_DB=legislators_db
-POSTGRES_USER=legislators_user
-POSTGRES_PASSWORD=your_secure_password
-DATABASE_URL=postgresql://legislators_user:your_secure_password@db:5432/legislators_db
-
-# Optional: CSV URL override
-LEGISLATORS_CSV_URL=https://unitedstates.github.io/congress-legislators/legislators-current.csv
-```
-
-Get a free API key from [OpenWeatherMap](https://openweathermap.org/api).
+Get a free weather API key from [OpenWeatherMap](https://openweathermap.org/api) and update `WEATHER_API_KEY` in the `.env` file. All other default values are ready to use.
 
 ### Installation
 

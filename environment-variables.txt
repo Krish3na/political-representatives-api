@@ -1,65 +1,35 @@
-# Environment Variables for Containerized Political Representatives API
-# Copy these variables to a .env file and replace the dummy values with your actual values
+# Environment Variables Template
+# Copy this file to .env and update API keys with your actual values
 
-# =============================================================================
-# WEATHER API CONFIGURATION (REQUIRED for weather endpoint)
-# =============================================================================
-# Get your free API key from: https://openweathermap.org/api
-# 1. Sign up for a free account
-# 2. Go to API keys section
-# 3. Copy your API key and replace the dummy value below
+# Weather API (required for weather endpoint)
+# Get free API key from https://openweathermap.org/api
 WEATHER_API_KEY=your_openweathermap_api_key_here
-
-# =============================================================================
-# DATABASE CONFIGURATION (Optional - defaults are set in docker-compose.yml)
-# =============================================================================
-# These are the default values used by Docker Compose
-# You can override them here if needed
+WEATHER_API_URL=http://api.openweathermap.org/data/2.5/weather
 
 # Database connection URL
 # Format: postgresql://username:password@host:port/database_name
 DATABASE_URL=postgresql://postgres:password@db:5432/legislators_db
+
+# Legislators Data Download URL
+LEGISLATORS_CSV_URL=https://unitedstates.github.io/congress-legislators/legislators-current.csv
 
 # PostgreSQL specific environment variables
 POSTGRES_DB=legislators_db
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=password
 
-# =============================================================================
-# FLASK APPLICATION CONFIGURATION (Optional)
-# =============================================================================
 # Flask environment (development/production)
 FLASK_ENV=production
 
 # Flask debug mode (true/false)
 FLASK_DEBUG=false
 
-# =============================================================================
-# DOCKER CONFIGURATION (Optional)
-# =============================================================================
 # Port mappings (if you want to change from defaults)
-API_PORT=5000
+FLASK_API_PORT=5001
+DJANGO_API_PORT=8001
+DB_HOST=db
 DB_PORT=5432
 
-# =============================================================================
-# EXAMPLE VALUES (Replace with your actual values)
-# =============================================================================
-# Example of what your WEATHER_API_KEY might look like:
-# WEATHER_API_KEY=1234567890abcdef1234567890abcdef
-
-# Example of custom database credentials:
-# POSTGRES_USER=myuser
-# POSTGRES_PASSWORD=mypassword123
-# DATABASE_URL=postgresql://myuser:mypassword123@db:5432/legislators_db
-
-# =============================================================================
-# HOW TO USE:
-# =============================================================================
-# 1. Create a file named .env in your project root
-# 2. Copy the variables above into the .env file
-# 3. Replace the dummy values with your actual values
-# 4. The application will automatically load these variables
-
-# Example .env file content:
-# WEATHER_API_KEY=1234567890abcdef1234567890abcdef
-# POSTGRES_PASSWORD=mysecurepassword123
+# Drivers
+VOLUME_DRIVER=local
+NETWORK_DRIVER=bridge
