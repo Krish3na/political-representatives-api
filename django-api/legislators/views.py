@@ -128,6 +128,9 @@ def weather_info(request, govtrack_id):
         return Response({'error': 'Weather API key not configured'}, status=500)
 
     weather_url = os.getenv('WEATHER_API_URL')
+    if not weather_url:
+        return Response({'error': 'Weather API URL not configured'}, status=500)
+
     params = {
         'q': capital,
         'appid': weather_api_key,
