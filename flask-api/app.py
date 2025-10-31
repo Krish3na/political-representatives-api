@@ -10,14 +10,14 @@ from psycopg2.extras import RealDictCursor
 app = Flask(__name__)
 
 # Database configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 
-    'postgresql://postgres:password@db:5432/legislators_db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
 # Weather API configuration
 WEATHER_API_KEY = os.environ.get('WEATHER_API_KEY')
+WEATHER_API_URL = os.environ.get('WEATHER_API_URL')
 
 # State capitals mapping
 STATE_CAPITALS = {
@@ -166,7 +166,7 @@ def get_legislator_weather(govtrack_id):
     
     try:
         # Call OpenWeatherMap API
-        weather_url = f"http://api.openweathermap.org/data/2.5/weather"
+        weather_url = WEATHER_API_URL
         params = {
             'q': f"{capital_city},{state},US",
             'appid': WEATHER_API_KEY,

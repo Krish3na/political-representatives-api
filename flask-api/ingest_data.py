@@ -7,8 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 # Create Flask app and database
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 
-    'postgresql://postgres:password@db:5432/legislators_db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -29,7 +28,7 @@ class Legislator(db.Model):
     notes = db.Column(db.Text)
 
 def download_legislators_data():
-    url = "https://unitedstates.github.io/congress-legislators/legislators-current.csv"
+    url = os.environ.get('LEGISLATORS_CSV_URL')
     
     print("Downloading legislators data...")
     try:

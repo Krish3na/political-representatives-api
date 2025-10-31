@@ -29,7 +29,7 @@ RUN adduser --disabled-password --gecos '' appuser && chown -R appuser:appuser /
 USER appuser
 
 # Expose port
-EXPOSE 5000
+EXPOSE 5001
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
