@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.db import connection
 from .models import Legislator
 from .serializers import LegislatorSerializer, LegislatorUpdateSerializer
 import requests
@@ -43,7 +44,15 @@ def update_notes(request, govtrack_id):
     serializer = LegislatorUpdateSerializer(legislator, data=request.data, partial=True)
 
     if serializer.is_valid():
-        serializer.save()
+        new_notes = serializer.validated_data.get('notes', legislator.notes)
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "UPDATE legislators SET notes = %s WHERE govtrack_id = %s",
+                [new_notes, govtrack_id]
+            )
+
+        legislator.refresh_from_db()
+        
         return Response({
             'legislator': LegislatorSerializer(legislator).data,
             'message': 'Notes updated successfully'

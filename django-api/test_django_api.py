@@ -81,6 +81,10 @@ def test_update_notes(legislator_id):
             print("✗ Notes were not updated correctly")
             return False
         print(f"✗ Failed to update notes: {r.status_code}")
+        try:
+            print(f"Error response: {r.text}")
+        except:
+            pass
     except requests.RequestException as e:
         print(f"✗ Failed to update notes: {e}")
     return False
