@@ -154,6 +154,9 @@ def get_legislator_weather(govtrack_id):
     if not WEATHER_API_KEY:
         return jsonify({'error': 'Weather API key not configured'}), 500
     
+    if not WEATHER_API_URL:
+        return jsonify({'error': 'Weather API URL not configured'}), 500
+    
     legislator = Legislator.query.get(govtrack_id)
     if not legislator:
         return jsonify({'error': 'Legislator not found'}), 404

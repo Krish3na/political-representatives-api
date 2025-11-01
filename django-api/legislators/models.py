@@ -16,7 +16,6 @@ class Legislator(models.Model):
 
     class Meta:
         db_table = 'legislators'
-        managed = False
         indexes = [
             models.Index(fields=['state']),
             models.Index(fields=['party']),

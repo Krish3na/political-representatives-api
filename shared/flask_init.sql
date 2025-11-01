@@ -1,9 +1,11 @@
--- Initialize the legislators database
--- Create the database if it doesn't exist (PostgreSQL compatible)
-SELECT 'CREATE DATABASE legislators_db'
-WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'legislators_db')\gexec
+-- Create Flask database
+SELECT 'CREATE DATABASE flask_legislators_db'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'flask_legislators_db')\gexec
 
--- Create the legislators table
+-- Connect to Flask database
+\c flask_legislators_db
+
+-- Create the legislators table for Flask
 CREATE TABLE IF NOT EXISTS legislators (
     govtrack_id INTEGER PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,

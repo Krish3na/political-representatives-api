@@ -11,7 +11,7 @@ class LegislatorSerializer(serializers.ModelSerializer):
     def get_age(self, obj):
         return obj.calculate_age()
 
-class LegislatorUpdateSerializer(serializers.ModelSerializer):
+class NotesUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Legislator
         fields = ['notes']

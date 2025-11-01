@@ -10,12 +10,12 @@ def test_health():
     try:
         r = requests.get(f"{BASE_URL}/health/")
         if r.status_code == 200:
-            print("✓ Health check passed")
+            print("PASS: Health check")
             print(f"Response: {r.json()}")
             return True
-        print(f"✗ Health check failed: {r.status_code}")
+        print(f"FAIL: Health check - {r.status_code}")
     except requests.RequestException as e:
-        print(f"✗ Health check failed: {e}")
+        print(f"FAIL: Health check - {e}")
     return False
 
 def test_get_legislators():
@@ -24,14 +24,14 @@ def test_get_legislators():
         r = requests.get(f"{BASE_URL}/legislators/")
         if r.status_code == 200:
             data = r.json()
-            print(f"✓ Retrieved {len(data)} legislators")
+            print(f"PASS: Retrieved {len(data)} legislators")
             if data:
-                print(f"Sample legislator:\n{json.dumps(data[0], indent=2)}")
+                print(f"Sample:\n{json.dumps(data[0], indent=2)}")
                 return data[0]["govtrack_id"]
             return None
-        print(f"✗ Failed to get legislators: {r.status_code}")
+        print(f"FAIL: Get legislators - {r.status_code}")
     except requests.RequestException as e:
-        print(f"✗ Failed to get legislators: {e}")
+        print(f"FAIL: Get legislators - {e}")
     return None
 
 def test_get_legislator_by_id(legislator_id):
@@ -40,33 +40,33 @@ def test_get_legislator_by_id(legislator_id):
         r = requests.get(f"{BASE_URL}/legislators/{legislator_id}/")
         if r.status_code == 200:
             data = r.json()
-            print(f"✓ Retrieved legislator: {data['first_name']} {data['last_name']}")
+            print(f"PASS: Retrieved {data['first_name']} {data['last_name']}")
             print(f"Response:\n{json.dumps(data, indent=2)}")
             return True
-        print(f"✗ Failed to get legislator: {r.status_code}")
+        print(f"FAIL: Get legislator - {r.status_code}")
     except requests.RequestException as e:
-        print(f"✗ Failed to get legislator: {e}")
+        print(f"FAIL: Get legislator - {e}")
     return False
 
 def test_filter_legislators():
-    print("Testing filtering by state (CA)...")
+    print("Testing filter by state (CA)...")
     try:
         r = requests.get(f"{BASE_URL}/legislators/?state=CA")
         if r.status_code == 200:
             data = r.json()
-            print(f"✓ Found {len(data)} legislators from California")
+            print(f"PASS: Found {len(data)} legislators from California")
             if data:
-                print(f"Sample CA legislator:\n{json.dumps(data[0], indent=2)}")
+                print(f"Sample:\n{json.dumps(data[0], indent=2)}")
             return True
-        print(f"✗ Failed to filter legislators: {r.status_code}")
+        print(f"FAIL: Filter legislators - {r.status_code}")
     except requests.RequestException as e:
-        print(f"✗ Failed to filter legislators: {e}")
+        print(f"FAIL: Filter legislators - {e}")
     return False
 
 def test_update_notes(legislator_id):
     print(f"Testing PATCH /legislators/{legislator_id}/notes...")
     try:
-        note = "This is a test note from the Django API test script."
+        note = "Test note from Django API test script"
         r = requests.patch(
             f"{BASE_URL}/legislators/{legislator_id}/notes/",
             json={"notes": note},
@@ -75,18 +75,16 @@ def test_update_notes(legislator_id):
         if r.status_code == 200:
             data = r.json()
             if data["legislator"]["notes"] == note:
-                print("✓ Successfully updated legislator notes")
+                print("PASS: Updated legislator notes")
                 print(f"Response:\n{json.dumps(data, indent=2)}")
                 return True
-            print("✗ Notes were not updated correctly")
+            print("FAIL: Notes not updated correctly")
             return False
-        print(f"✗ Failed to update notes: {r.status_code}")
-        try:
-            print(f"Error response: {r.text}")
-        except:
-            pass
+        print(f"FAIL: Update notes - {r.status_code}")
+        if r.text:
+            print(f"Error: {r.text}")
     except requests.RequestException as e:
-        print(f"✗ Failed to update notes: {e}")
+        print(f"FAIL: Update notes - {e}")
     return False
 
 def test_age_stats():
@@ -95,14 +93,14 @@ def test_age_stats():
         r = requests.get(f"{BASE_URL}/stats/age/")
         if r.status_code == 200:
             data = r.json()
-            print(f"✓ Age stats - Average: {data['average_age']}, "
+            print(f"PASS: Age stats - Avg: {data['average_age']}, "
                   f"Youngest: {data['youngest_legislator']['age']}, "
                   f"Oldest: {data['oldest_legislator']['age']}")
             print(f"Response:\n{json.dumps(data, indent=2)}")
             return True
-        print(f"✗ Failed to get age stats: {r.status_code}")
+        print(f"FAIL: Age stats - {r.status_code}")
     except requests.RequestException as e:
-        print(f"✗ Failed to get age stats: {e}")
+        print(f"FAIL: Age stats - {e}")
     return False
 
 def test_weather(legislator_id):
@@ -111,20 +109,20 @@ def test_weather(legislator_id):
         r = requests.get(f"{BASE_URL}/legislators/{legislator_id}/weather/")
         if r.status_code == 200:
             data = r.json()
-            print(f"✓ Weather data retrieved for {data['state_capital']}")
+            print(f"PASS: Weather for {data['state_capital']}")
             print(f"Response:\n{json.dumps(data, indent=2)}")
             return True
         if r.status_code == 500:
-            print("⚠ Weather endpoint 500 (likely missing WEATHER_API_KEY); skipping as pass")
+            print("INFO: Weather endpoint returned 500 (missing API key or URL)")
             print(f"Response: {r.text}")
             return True
-        print(f"✗ Failed to get weather: {r.status_code}")
+        print(f"FAIL: Weather - {r.status_code}")
     except requests.RequestException as e:
-        print(f"✗ Failed to get weather: {e}")
+        print(f"FAIL: Weather - {e}")
     return False
 
 def main():
-    print("Starting Django API tests...\n")
+    print("Starting Django API tests\n")
     tests_passed = 0
     total_tests = 7
 
@@ -149,11 +147,11 @@ def main():
 
     if legislator_id and test_weather(legislator_id): tests_passed += 1
 
-    print(f"\nTest Results: {tests_passed}/{total_tests} tests passed")
+    print(f"\nResults: {tests_passed}/{total_tests} tests passed")
     if tests_passed == total_tests:
-        print("All tests passed! The Django API is working correctly.")
+        print("All tests passed")
         return 0
-    print("Some tests failed. Check the output above for details.")
+    print("Some tests failed")
     return 1
 
 if __name__ == "__main__":

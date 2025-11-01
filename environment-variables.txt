@@ -8,13 +8,16 @@ WEATHER_API_URL=http://api.openweathermap.org/data/2.5/weather
 
 # Database connection URL
 # Format: postgresql://username:password@host:port/database_name
-DATABASE_URL=postgresql://postgres:password@db:5432/legislators_db
+# DATABASE_URL=postgresql://postgres:password@db:5432/legislators_db
+FLASK_DATABASE_URL=postgresql://postgres:password@db:5432/flask_legislators_db
+DJANGO_DATABASE_URL=postgresql://postgres:password@db:5432/django_legislators_db
 
 # Legislators Data Download URL
 LEGISLATORS_CSV_URL=https://unitedstates.github.io/congress-legislators/legislators-current.csv
 
 # PostgreSQL specific environment variables
-POSTGRES_DB=legislators_db
+DJANGO_POSTGRES_DB=django_legislators_db
+FLASK_DATABASE_DB=flask_legislators_db
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=password
 
